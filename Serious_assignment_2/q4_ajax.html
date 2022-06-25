@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUESTION 4</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $(() => {
+
+            $("#pin").blur(
+                () => {
+
+                    console.log("inside the blur evet");
+                    let ip = { pincode: $("#pin").val() };
+
+                    let parameterstothefunction =
+                    {
+                        data: ip,
+                        url: "http://localhost:900/pincode",
+                        type: 'get',
+                        dataType: "json",//json will convert string to javascript object
+                        success: (datagivenbyserver) => {
+                            console.log("data given by server in success" + datagivenbyserver.status)
+                          //  status of advuser
+                              if(datagivenbyserver.status  === true )
+                              {
+                                       //$("#message").text("successful login"); //makeup
+                                       console.log("data found");
+                                       $("#area").val(datagivenbyserver.detail.areaname);    
+                              } 
+                              else
+                              {
+                            console.log("data not found");
+                            $("#area").val("");
+                              }
+
+
+                        },
+                        error: (errorgivenbyserver) => { console.log("failed to contact server " + errorgivenbyserver) }
+                    };
+                    //function will be claeed by server           
+                    //time to call the function
+                    console.log("is the function working");
+                    $.ajax(parameterstothefunction);
+
+
+                });
+
+        });
+    </script>
+</head>
+
+<body>
+    <h1>contacting the server</h1>
+    <input type="text" id="pin" placeholder="enter pincode">
+    <input type="text" id="area" placeholder="areaname">
+
+</body>
+
+</html>
